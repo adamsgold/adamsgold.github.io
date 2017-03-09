@@ -10,8 +10,8 @@
 	padding: 0;
 	font-family: verdana;
 	color: white;
-	-webkit-transition: 0.125s linear;
-	transition: 0.125s linear;
+	/*-webkit-transition: background-color, width, height 0.125s linear;
+	transition: background-color, width, height 0.125s linear;*/
 }
 
 html {
@@ -23,6 +23,8 @@ body {
 	padding: 1em;
 	width: 80%;
 	background-color: #444;
+	border: 2px solid #666;
+	border-top-width: 0;
 }
 
 form {
@@ -36,14 +38,14 @@ input[type=radio] {
 
 input[type=radio] + label > span {
 	display: inline-block;
-	width: 50%;
-	height: 2em;
+	width: 20px;
+	height: 20px;
 	vertical-align: middle;
 	border-radius: 5px;
+	background-color: white;
 	border: 1px solid #888;
-	margin: 0px -6px 4px 0;
+	margin: 0 8px 4px 0;
 	overflow: hidden;
-	text-align: center;
 }
 
 input[type=radio] + label span span {
@@ -60,18 +62,17 @@ input[type=radio]:checked + label span span{
 	width: 24px;
 	height: 24px;
 	border-radius: 5px;
-	/*margin-left: -2px;
-	margin-top: -2px;*/
-	background: #40ff00;
+	margin-left: -2px;
+	margin-top: -2px;
+	/*background: #40ff00;*/
 }
 
 input[type=radio] + label {
-	margin-right: 0;
-	left: -25%;
+	margin-right: 10%;
 }
 
 input[type=radio]:checked + label {
-	color: #40ff00;
+	/*color: #40ff00;*/
 }
 
 input[type=button] {
@@ -162,49 +163,182 @@ input[type=checkbox] + label > span:nth-child(3) {
 	
 }
 
+/* ----------------------------------------------------- */
+
+#colors {
+	position: relative;
+	width: 100%;
+}
+
+#colors:before {
+	content: "";
+	display: block;
+	padding-top: 80%;
+}
+
+#colorsContent {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+
+#side {
+	position: absolute;
+	height: 100%;
+	width: 15%;
+	top: 0;
+	right: 0;
+	float: right;
+	/*margin-top: -7em;*/
+}
+
+.square {
+	width: 100%;
+	padding-bottom: 100%;
+	border-radius: 10%;
+	/*margin-top: -10%;
+	/*left: -7.5%;
+	/*margin-top: -7.75em;*/
+	background-color: black;
+	text-align: center;
+	color: white;
+}
+
+.square > span {
+	position: absolute;
+	width: 100%;
+	margin-left: -50%;
+	line-height: 100%;
+	vertical-align: center;
+}
+
+#foreground {
+	margin-top: 57%;
+	margin-bottom: 60%;
+}
+
+#background {
+	margin-top: 60%;
+}
+
+input[type=range] {
+	-webkit-appearance: none;
+	width: 75%;
+	height: 0.25em;
+	/*vertical-align: 1.375em;*/
+	margin-top: calc(20% - 0.25em);
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: white;
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 1.25em;
+}
+#red::-webkit-slider-thumb {
+	border: 2px solid red;
+	box-shadow: 0 0 8px 2px red;
+}
+#green::-webkit-slider-thumb {
+	border: 2px solid green;
+	box-shadow: 0 0 8px 2px green;
+}
+#blue::-webkit-slider-thumb {
+	border: 2px solid blue;
+	box-shadow: 0 0 8px 2px blue;
+}
+input[type=range]:focus {
+  outline: none;
+}
+
 </style>
 </head>
 <body>
 	<form id='color_scheme'>
-		<input type='radio' name='color' id='color0' value='light'/><label for='color0'><span><span>Light</span></span></label>
-		<input type='radio' name='color' id='color1' value='dark'/><label for='color1'><span><span>Dark</span></span></label>
+		<input type='radio' name='color' id='color0' value='light'/><label for='color0'><span><span></span></span>Light</label>
+		<input type='radio' name='color' id='color1' value='dark'/><label for='color1'><span><span></span></span>Dark</label>
 		<br><br>
-		<input type='checkbox' id='temp_units' name='temp_units' value='units'/>
-		<label for='temp_units' id='temp'>
-			<span>&deg;C</span>
-			<span></span>
-			<span>Temp Units</span>
-			<span>&deg;F</span>
-		</label>
-		<br><br>
+		<input type='checkbox' id='temp_units' name='temp_units' value='units'/><label for='temp_units' id='temp'><span>&deg;C</span><span></span><span>Temp Units</span><span>&deg;F</span></label>
+		<br><br><br><br>
+		<div id='colors'>
+		<div id='colorsContent'>
+		<input type='range' min='0' max='255' value='0' id='red' oninput='colorChange()'>
+		<input type='range' min='0' max='255' value='0' id='green' oninput='colorChange()'>
+		<input type='range' min='0' max='255' value='0' id='blue' oninput='colorChange()'>
+		<div id='side'>
+		<div class='square' id='foreground' onclick="setColors(this)"><span>text</span></div>
+		<div class='square' id='window'></div>
+		<div class='square' id='background' onclick="setColors(this)"><span>back</span></div>
+		</div>
+		</div>
+		</div>
 		<input id='submit_button' type='button' value='Save'>
 	</form>
 	<!--<p id='url_set'></p>-->
 </body>
 <script>
+
 window.onload = function() {
 	var url = document.location.href;
 	var length = url.length;
 	var where = url.lastIndexOf('#');
 	console.log(where);
-	var options = url.slice(where + 1, length);
-	options = JSON.parse(decodeURIComponent(options));
-	var idString = 'color' + options.color;
-	document.getElementById(idString).checked = true;
-	var unitsCheck = options.temp == 1;
-	document.getElementById('temp_units').checked = unitsCheck;
+	if (where > 0) {
+		var options = url.slice(where + 1, length);
+		options = JSON.parse(decodeURIComponent(options));
+		var idString = 'color' + options.color;
+		document.getElementById(idString).checked = true;
+		var unitsCheck = options.temp == 1;
+		document.getElementById('temp_units').checked = unitsCheck;
+	}
 }
 
-function getColorScheme(dark) {
-	var color;
-	color = dark ? 1 : 0;
-	var options = { 'color': color };
-	return options;
+var sliders = document.querySelectorAll('input[type=range]');
+var color;
+var foreColor = [0, 0, 0];
+var backColor = [0, 0, 0];
+for (var i = 0; i < sliders.length; i++) {
+	sliders[i].addEventListener('input', function () {
+		var percent = this.value / 255 * 100;
+		var value = '-webkit-linear-gradient(left, ' + this.id + ' 0%, ' + this.id + ' ' + percent + '%, white ' + percent + '%)';
+		this.style.background = value;
+	});
 }
 
-function selectSquare () {
-	getEleme
-	if (
+function getColors() {
+	var r = parseInt(document.getElementById('red').value, 10),
+	g = parseInt(document.getElementById('green').value, 10),
+	b = parseInt(document.getElementById('blue').value, 10);
+	return [r, g, b];
+}
+
+function colorChange() {
+	var [r, g, b] = getColors();
+	color = 'rgb('+r+', '+g+', '+b+')';
+	document.getElementById('window').style.backgroundColor = color;
+}
+
+function setColors(a) {
+	var name = a.id;
+	var [r, g, b] = getColors();
+	var avg = (r + g + b) / 3;
+	
+	color = 'rgb('+r+', '+g+', '+b+')';
+	var element = document.getElementById(name)
+	element.style.backgroundColor = color;
+	switch(name) {
+		case "foreground":
+			foreColor = [r, g, b];
+			break
+		case "background":
+			backColor = [r, g, b];
+			break
+		default:
+			break
+	}
+}
 
 // Determine the correct return URL (emulator vs real watch)
 function getQueryParam(variable, defaultValue) {
@@ -226,7 +360,7 @@ submitButton.addEventListener('click', function() {
 	color = dark ? 1 : 0;
 	var units = document.getElementById('temp_units').checked;
 	temp = units ? 1 : 0;
-	options = { 'color' : color, 'temp' : temp };
+	options = { 'color' : color, 'temp' : temp, 'foreColor': foreColor, 'backColor': backColor };
 	var return_to = getQueryParam('return_to', 'pebblejs://close#');
 	var location = return_to + encodeURIComponent(JSON.stringify(options));
 	document.location = location;
