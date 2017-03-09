@@ -1,0 +1,238 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>New Watchface Configuration</title>
+<!--<script type="text/javascript" src="app.js"></script>
+<link type="text/css" rel="stylesheet" href="style.css"/>-->
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	font-family: verdana;
+	color: white;
+	-webkit-transition: 0.125s linear;
+	transition: 0.125s linear;
+}
+
+html {
+	background-color: #888;
+}
+
+body {
+	margin: 0 auto;
+	padding: 1em;
+	width: 80%;
+	background-color: #444;
+}
+
+form {
+	width: 80%;
+	margin: 0 auto;
+}
+
+input[type=radio] {
+	display: none;
+}
+
+input[type=radio] + label > span {
+	display: inline-block;
+	width: 50%;
+	height: 2em;
+	vertical-align: middle;
+	border-radius: 5px;
+	border: 1px solid #888;
+	margin: 0px -6px 4px 0;
+	overflow: hidden;
+	text-align: center;
+}
+
+input[type=radio] + label span span {
+	display: inline-block;
+	vertical-align: middle;
+	width: 0;
+	height: 0;
+	border-radius: 0;
+	margin: 0 auto;
+	margin-left: 10px;
+}
+
+input[type=radio]:checked + label span span{
+	width: 24px;
+	height: 24px;
+	border-radius: 5px;
+	/*margin-left: -2px;
+	margin-top: -2px;*/
+	background: #40ff00;
+}
+
+input[type=radio] + label {
+	margin-right: 0;
+	left: -25%;
+}
+
+input[type=radio]:checked + label {
+	color: #40ff00;
+}
+
+input[type=button] {
+	-webkit-appearance: none;
+	-webkit-border-radius: 0;
+	padding: 1em;
+	border: 0 none;
+	width: 100%;
+	margin: 0 auto;
+	background-color: #888;
+	color: white;
+	border-radius: 0.5em;
+	/*margin-left: 2em;*/
+	margin-top: 2em;
+}
+
+/* ----------------------------------------------------- */
+
+input[type=checkbox] {
+	display: none;
+}
+
+input[type=checkbox] + label {
+	position: absolute;
+	display: inline-block;
+	width: 75px;
+	height: 30px;
+	border-radius: 17px;
+	background-color: #fff;
+	border: 2px solid #888;
+}
+
+input[type=checkbox]:checked + label {
+	position: absolute;
+	width: 75px;
+	height: 30px;
+	border-radius: 17px;
+	background-color: #40ff00;
+}
+
+input[type=checkbox] + label > span:nth-child(2) {
+	position: absolute;
+	width: 26px;
+	height: 26px;
+	margin: 0px 0 0 0px;
+	border-radius: 15px;
+	background-color: #fff;
+	border: 2px solid #ddd;
+}
+
+input[type=checkbox]:checked + label > span:nth-child(2) {
+	margin-left: 45px;
+}
+
+input[type=checkbox] + label > span:first-child {
+	position: absolute;
+	display: none;
+	height: 30px;
+	width: 30px;
+	margin: 6px 0 0 15px;
+}
+
+input[type=checkbox]:checked + label > span:first-child {
+	position: absolute;
+	display: inline;
+	height: 30px;
+	width: 30px;
+}
+
+input[type=checkbox] + label > span:last-child {
+	position: absolute;
+	color: #40ff00;
+	height: 30px;
+	width: 30px;
+	margin: 6px 0 0 40px;
+}
+
+input[type=checkbox]:checked + label > span:last-child {
+	position: absolute;
+	display: none;
+}
+
+input[type=checkbox] + label > span:nth-child(3) {
+	position: absolute;
+	width: 200px;
+	display: inline;
+	margin: 6px 0 0 90px;
+	
+}
+
+</style>
+</head>
+<body>
+	<form id='color_scheme'>
+		<input type='radio' name='color' id='color0' value='light'/><label for='color0'><span><span>Light</span></span></label>
+		<input type='radio' name='color' id='color1' value='dark'/><label for='color1'><span><span>Dark</span></span></label>
+		<br><br>
+		<input type='checkbox' id='temp_units' name='temp_units' value='units'/>
+		<label for='temp_units' id='temp'>
+			<span>&deg;C</span>
+			<span></span>
+			<span>Temp Units</span>
+			<span>&deg;F</span>
+		</label>
+		<br><br>
+		<input id='submit_button' type='button' value='Save'>
+	</form>
+	<!--<p id='url_set'></p>-->
+</body>
+<script>
+window.onload = function() {
+	var url = document.location.href;
+	var length = url.length;
+	var where = url.lastIndexOf('#');
+	console.log(where);
+	var options = url.slice(where + 1, length);
+	options = JSON.parse(decodeURIComponent(options));
+	var idString = 'color' + options.color;
+	document.getElementById(idString).checked = true;
+	var unitsCheck = options.temp == 1;
+	document.getElementById('temp_units').checked = unitsCheck;
+}
+
+function getColorScheme(dark) {
+	var color;
+	color = dark ? 1 : 0;
+	var options = { 'color': color };
+	return options;
+}
+
+function selectSquare () {
+	getEleme
+	if (
+
+// Determine the correct return URL (emulator vs real watch)
+function getQueryParam(variable, defaultValue) {
+  var query = location.search.substring(1);
+  var vars = query.split('&');
+  for (var i = 0; i < vars.length; i++) {
+	var pair = vars[i].split('=');
+	if (pair[0] === variable) {
+	  return decodeURIComponent(pair[1]);
+	}
+  }
+  return defaultValue || false;
+}
+
+var submitButton = document.getElementById('submit_button');
+
+submitButton.addEventListener('click', function() {
+	var dark = document.getElementById('color1').checked;
+	color = dark ? 1 : 0;
+	var units = document.getElementById('temp_units').checked;
+	temp = units ? 1 : 0;
+	options = { 'color' : color, 'temp' : temp };
+	var return_to = getQueryParam('return_to', 'pebblejs://close#');
+	var location = return_to + encodeURIComponent(JSON.stringify(options));
+	document.location = location;
+});
+
+
+
+</script>
+</html>
